@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta para mi amada</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="hearts-bg"></div>
+    <div style="max-width: 600px; margin: 40px auto; background: rgba(255,240,246,0.95); border-radius: 24px; box-shadow: 0 8px 32px rgba(215,38,96,0.15); padding: 32px; text-align: center; font-family: 'Montserrat', 'Segoe UI', sans-serif; position: relative; z-index: 1;">
+        <h1 style="color: #d72660; font-family: 'Dancing Script', cursive; font-size: 2.8em; margin-bottom: 16px;">Para la más guapa 💖</h1>
+        <div id="gallery" style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin-bottom: 24px;">
+            <img src="32dbc37b-5c37-4ccd-a53b-d1c4c8430558.jfif" class="photo">
+            <img src="64192dc1-acdb-451e-8846-a075fcb3c883.jfif" class="photo">
+            <img src="cd6e9e99-d794-45e7-80ea-e6f1b481c39d.jfif" class="photo">
+            <img src="e43380a5-4b76-40e1-bdb1-869e9a2b0430.jfif" class="photo">
+            <img src="60e1b275-8d89-489f-a802-a33931adbb97.jfif" class="photo">
+        </div>
+        <button id="loveBtn" class="modern-btn">Un mensaje bonito para ti.</button>
+        <div id="message" style="margin-top: 28px; font-size: 1.3em; color: #d72660; min-height: 40px; font-family: 'Dancing Script', cursive;"></div>
+        <div id="countdown" style="margin: 24px 0 0 0; font-size: 1.2em; color: #a61c3c; font-family: 'Montserrat', sans-serif;"></div>
+        <div id="envelope-container">
+            <div id="envelope" title="Abrir carta de amor">
+                <div class="envelope-flap"></div>
+                <div class="envelope-body"></div>
+                <div class="envelope-letter">💌</div>
+            </div>
+            <span style="display:block; margin-top:8px; color:#d72660; font-family:'Dancing Script',cursive; font-size:1.1em;">Abrir carta de amor</span>
+        </div>
+    </div>
+    <div id="countdown-fixed">
+        <span id="countdown-text"></span>
+    </div>
+    <div id="poem-envelope-container">
+        <div id="poem-envelope" title="Abrir poema para Alejandra">
+            <div class="envelope-flap"></div>
+            <div class="envelope-body"></div>
+            <div class="envelope-letter">📜</div>
+        </div>
+        <span style="display:block; margin-top:8px; color:#a61c3c; font-family:'Dancing Script',cursive; font-size:1.1em;">Poema para Alejandra</span>
+    </div>
+    <div id="modal-bg">
+        <div id="modal">
+            <span id="close-modal">&times;</span>
+            <h2 style="font-family:'Dancing Script',cursive; color:#d72660; font-size:2em;">Te quiero mucho 💖</h2>
+            <p style="font-size:1.2em; color:#333; margin:18px 0 0 0;">Eres la persona más especial de mi vida. Gracias por llenar mis días de alegría, amor y magia. ¡Nunca olvides lo importante que eres para mí!</p>
+        </div>
+    </div>
+    <div id="poem-modal-bg">
+        <div id="poem-modal">
+            <span id="close-poem-modal">&times;</span>
+            <h2 style="font-family:'Dancing Script',cursive; color:#a61c3c; font-size:2em;">Para Alejandra 🌹</h2>
+            <p style="font-size:1.2em; color:#333; margin:18px 0 0 0; font-family:'Dancing Script',cursive;">
+                En cada rayo de sol veo tu sonrisa,<br>
+                en cada brisa suave escucho tu voz.<br>
+                Alejandra, eres mi mayor alegría,<br>
+                mi sueño, mi vida, mi razón.<br><br>
+                Tus ojos, luceros en la noche callada,<br>
+                tu risa, melodía que alegra mi ser.<br>
+                Eres la magia que nunca se acaba,<br>
+                mi amor eterno, mi razón de creer.<br><br>
+                Gracias por ser mi inspiración,<br>
+                por llenar de amor mi corazón.<br>
+                Alejandra, contigo todo es mejor,<br>
+                eres mi poema, mi vida, mi amor.
+            </p>
+        </div>
+    </div>
+    <script>
+        // Corazones flotando
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (2 + Math.random() * 3) + 's';
+            document.getElementById('hearts-bg').appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(createHeart, 600);
+        // Mensajes románticos
+        const messages = [
+            "Eres la razón de mi sonrisa cada día 💕",
+            "Te amo más de lo que las palabras pueden expresar 😍",
+            "Cada momento contigo es mágico ✨",
+            "Tu belleza ilumina mi mundo 🌟",
+            "Gracias por existir y ser tan especial para mí 💖"
+        ];
+        document.getElementById('loveBtn').onclick = function() {
+            const msg = messages[Math.floor(Math.random() * messages.length)];
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = msg;
+            messageDiv.style.animation = 'fadeIn 1s';
+            // Sonido suave
+            const audio = new Audio('https://cdn.pixabay.com/audio/2022/07/26/audio_124b7b2b7b.mp3');
+            audio.volume = 0.2;
+            audio.play();
+        };
+        // Zoom animado al hacer clic en foto
+        document.querySelectorAll('.photo').forEach(img => {
+            img.onclick = function() {
+                img.classList.add('zoomed');
+                setTimeout(() => img.classList.remove('zoomed'), 800);
+            };
+        });
+        // Modal sobre
+        document.getElementById('envelope').onclick = function() {
+            document.getElementById('modal-bg').style.display = 'flex';
+        };
+        document.getElementById('close-modal').onclick = function() {
+            document.getElementById('modal-bg').style.display = 'none';
+        };
+        // Poema envelope modal
+        document.getElementById('poem-envelope').onclick = function() {
+            document.getElementById('poem-modal-bg').style.display = 'flex';
+        };
+        document.getElementById('close-poem-modal').onclick = function() {
+            document.getElementById('poem-modal-bg').style.display = 'none';
+        };
+        // Cuenta regresiva para el 12 de diciembre de 2025
+        function updateCountdown() {
+            const targetDate = new Date('2025-12-13T00:00:00');
+            const now = new Date();
+            const diff = targetDate - now;
+            if (diff <= 0) {
+                document.getElementById('countdown').textContent = '¡Hoy es el día especial!';
+                return;
+            }
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+            document.getElementById('countdown').textContent = `Faltan ${days} días, ${hours} horas, ${minutes} minutos y ${seconds} segundos para estar juntos 💝`;
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Cuenta regresiva para el 12 de diciembre de 2025 (fixed position)
+        function updateCountdownFixed() {
+            const targetDate = new Date('2025-12-13T00:00:00');
+            const now = new Date();
+            const diff = targetDate - now;
+            let text = '';
+            if (diff <= 0) {
+                text = '¡Hoy es el día especial!';
+            } else {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const minutes = Math.floor((diff / (1000 * 60)) % 60);
+                const seconds = Math.floor((diff / 1000) % 60);
+                text = `Faltan ${days} días, ${hours}h, ${minutes}m, ${seconds}s para estar juntos 💝`;
+            }
+            document.getElementById('countdown-text').textContent = text;
+        }
+        setInterval(updateCountdownFixed, 1000);
+        updateCountdownFixed();
+    </script>
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #f7b2d9 0%, #f7cac9 50%, #b2a4ff 100%);
+            position: relative;
+            overflow-x: hidden;
+        }
+        #hearts-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .floating-heart {
+            position: absolute;
+            bottom: -40px;
+            width: 32px; height: 32px;
+            background: url('https://cdn-icons-png.flaticon.com/512/833/833472.png') no-repeat center/contain;
+            opacity: 0.7;
+            animation: floatUp linear forwards;
+        }
+        @keyframes floatUp {
+            to {
+                transform: translateY(-110vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+        .modern-btn {
+            background: linear-gradient(90deg, #d72660 0%, #b2a4ff 100%);
+            color: #fff;
+            border: none;
+            border-radius: 24px;
+            padding: 14px 32px;
+            font-size: 1.2em;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+            box-shadow: 0 2px 12px #d7266060;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .modern-btn:hover {
+            background: linear-gradient(90deg, #b2a4ff 0%, #d72660 100%);
+            transform: scale(1.05);
+        }
+        .photo {
+            width: 120px; height: 120px;
+            object-fit: cover;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px #d7266060;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .photo:hover {
+            transform: scale(1.12) rotate(-2deg);
+            box-shadow: 0 8px 32px #d7266080;
+        }
+        .zoomed {
+            transform: scale(1.3) rotate(2deg);
+            box-shadow: 0 12px 40px #d72660cc;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        #envelope-container {
+            margin: 32px auto 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+        #envelope {
+            width: 80px; height: 60px;
+            position: relative;
+            margin: 0 auto;
+            transition: transform 0.3s;
+        }
+        #envelope:hover {
+            transform: scale(1.08) rotate(-3deg);
+            box-shadow: 0 4px 24px #d7266080;
+        }
+        .envelope-flap {
+            position: absolute;
+            top: 0; left: 0;
+            width: 80px; height: 30px;
+            background: #fff;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            border: 2px solid #d72660;
+            border-bottom: none;
+            z-index: 2;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+        }
+        .envelope-body {
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 80px; height: 40px;
+            background: #fff;
+            border: 2px solid #d72660;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            z-index: 1;
+        }
+        .envelope-letter {
+            position: absolute;
+            top: 12px; left: 50%;
+            transform: translateX(-50%);
+            font-size: 2em;
+            color: #d72660;
+            z-index: 3;
+            pointer-events: none;
+        }
+        #modal-bg {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(215,38,96,0.18);
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        #modal {
+            background: #fff0f6;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px #d7266060;
+            padding: 36px 32px 28px 32px;
+            text-align: center;
+            max-width: 350px;
+            position: relative;
+            animation: fadeIn 0.7s;
+        }
+        #close-modal {
+            position: absolute;
+            top: 12px; right: 18px;
+            font-size: 2em;
+            color: #d72660;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+        }
+        #poem-envelope-container {
+            margin: 32px auto 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+        #poem-envelope {
+            width: 80px; height: 60px;
+            position: relative;
+            margin: 0 auto;
+            transition: transform 0.3s;
+        }
+        #poem-envelope:hover {
+            transform: scale(1.08) rotate(3deg);
+            box-shadow: 0 4px 24px #a61c3c80;
+        }
+        #poem-modal-bg {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(166,28,60,0.18);
+            justify-content: center;
+            align-items: center;
+            z-index: 150;
+        }
+        #poem-modal {
+            background: #fff0f6;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px #a61c3c60;
+            padding: 36px 32px 28px 32px;
+            text-align: center;
+            max-width: 400px;
+            position: relative;
+            animation: fadeIn 0.7s;
+        }
+        #close-poem-modal {
+            position: absolute;
+            top: 12px; right: 18px;
+            font-size: 2em;
+            color: #a61c3c;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+        }
+        #countdown-fixed {
+            position: fixed;
+            top: 32px;
+            right: 24px;
+            background: #fff0f6ee;
+            color: #a61c3c;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1em;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px #d7266030;
+            padding: 14px 22px;
+            z-index: 200;
+            min-width: 220px;
+            text-align: center;
+            transition: background 0.2s;
+        }
+        @media (max-width: 800px) {
+            #countdown-fixed {
+                position: static;
+                margin: 18px auto 0 auto;
+                display: block;
+                min-width: unset;
+                width: 90vw;
+                right: unset;
+                top: unset;
+                font-size: 1em;
+                box-shadow: 0 1px 6px #d7266030;
+            }
+            #poem-modal {
+                max-width: 90vw;
+                padding: 18px 8vw 16px 8vw;
+                border-radius: 14px;
+            }
+            #poem-envelope {
+                width: 60px !important;
+                height: 45px !important;
+            }
+            .envelope-flap, .envelope-body {
+                width: 60px !important;
+            }
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 0;
+            }
+            div[style*="max-width: 600px"] {
+                max-width: 98vw !important;
+                padding: 12px !important;
+                border-radius: 12px !important;
+            }
+            h1 {
+                font-size: 2em !important;
+                margin-bottom: 10px !important;
+            }
+            #gallery {
+                gap: 8px !important;
+                margin-bottom: 12px !important;
+            }
+            .photo {
+                width: 44vw !important;
+                height: 44vw !important;
+                min-width: 100px;
+                min-height: 100px;
+                max-width: 140px;
+                max-height: 140px;
+                border-radius: 10px !important;
+            }
+            .modern-btn {
+                padding: 10px 10vw !important;
+                font-size: 1em !important;
+                border-radius: 16px !important;
+            }
+            #envelope {
+                width: 60px !important;
+                height: 45px !important;
+            }
+            .envelope-flap {
+                width: 60px !important;
+                height: 22px !important;
+            }
+            .envelope-body {
+                width: 60px !important;
+                height: 23px !important;
+            }
+            .envelope-letter {
+                font-size: 1.3em !important;
+                top: 8px !important;
+            }
+            #modal {
+                max-width: 90vw !important;
+                padding: 18px 8vw 16px 8vw !important;
+                border-radius: 14px !important;
+            }
+            #close-modal {
+                font-size: 1.5em !important;
+                top: 6px !important;
+                right: 10px !important;
+            }
+            #message {
+                font-size: 1em !important;
+                margin-top: 16px !important;
+            }
+        }
+    </style>
+</body>
+</html>
